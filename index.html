@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annamari</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0a0a0f;
+      min-height: 100vh;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6vh 4vw;
+    }
+    h1 {
+      font-weight: 300;
+      font-size: 3vmin;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 6vh;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .canvas {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 4vmin;
+      width: 100%;
+      max-width: 1400px;
+    }
+    .card {
+      background: #12121a;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+    .card__preview {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border: none;
+      pointer-events: none;
+    }
+    .card__label {
+      padding: 1.6vmin 2vmin;
+      font-size: 1.6vmin;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+  </style>
+</head>
+<body>
+  <h1>Annamari</h1>
+  <div class="canvas" id="canvas"></div>
+
+  <script>
+    const entries = [
+      { folder: "panels", file: "1.html", label: "First Day" },
+      { folder: "panels", file: "2.html", label: "Watercolour Plant" }
+    ];
+
+    const canvas = document.getElementById("canvas");
+
+    entries.sort((a, b) => b.file.localeCompare(a.file, undefined, { numeric: true }));
+
+    entries.forEach(entry => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.addEventListener("click", () => {
+        window.location.href = encodeURI(entry.folder + "/" + entry.file);
+      });
+
+      const iframe = document.createElement("iframe");
+      iframe.className = "card__preview";
+      iframe.src = encodeURI(entry.folder + "/" + entry.file);
+      iframe.loading = "lazy";
+      iframe.setAttribute("tabindex", "-1");
+
+      const label = document.createElement("div");
+      label.className = "card__label";
+      label.textContent = entry.label;
+
+      card.appendChild(iframe);
+      card.appendChild(label);
+      canvas.appendChild(card);
+    });
+  </script>
+</body>
+</html>
