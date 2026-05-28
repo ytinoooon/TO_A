@@ -70,24 +70,25 @@
 
   <script>
     const entries = [
-      { folder: "panels", file: "1.html", label: "First Day" },
-      { folder: "panels", file: "2.html", label: "Watercolour Plant" }
+      { path: "panels/1/1.html", label: "First Day" },
+      { path: "panels/2/2.html", label: "Watercolour Plant" },
+      { path: "panels/3/3.html", label: "Random Flower Generator" }
     ];
 
     const canvas = document.getElementById("canvas");
 
-    entries.sort((a, b) => b.file.localeCompare(a.file, undefined, { numeric: true }));
+    entries.sort((a, b) => b.path.localeCompare(a.path, undefined, { numeric: true }));
 
     entries.forEach(entry => {
       const card = document.createElement("div");
       card.className = "card";
       card.addEventListener("click", () => {
-        window.location.href = encodeURI(entry.folder + "/" + entry.file);
+        window.location.href = encodeURI(entry.path);
       });
 
       const iframe = document.createElement("iframe");
       iframe.className = "card__preview";
-      iframe.src = encodeURI(entry.folder + "/" + entry.file);
+      iframe.src = encodeURI(entry.path);
       iframe.loading = "lazy";
       iframe.setAttribute("tabindex", "-1");
 
